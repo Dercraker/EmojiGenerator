@@ -4,11 +4,69 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// This is your Prisma schema file
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  emojis    Emoji[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model EmojiType {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  emojis      Emoji[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Emoji {
+  id              String   @id @default(cuid())
+  prompt          String
+  originalUrl     String
+  noBackgroundUrl String?
+  isFlagged       Boolean  @default(false)
+  isFeatured      Boolean  @default(false)
+  safetyRating    Int      @default(0)
+  error           String?
+  isPublic        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  type      EmojiType @relation(fields: [typeId], references: [id])
+  typeId    String
+  tags      Tag[]
+  creator   User      @relation(fields: [creatorId], references: [id])
+  creatorId String
+
+  @@index([typeId])
+  @@index([creatorId])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  emojis    Emoji[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
 }
