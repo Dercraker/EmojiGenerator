@@ -4,6 +4,11 @@ globs:
 alwaysApply: false
 ---
 ---
+description: 
+globs: 
+alwaysApply: false
+---
+---
 description: EXPLAIN how Client Component work in React 19
 globs: *.tsx, *.ts
 alwaysApply: false

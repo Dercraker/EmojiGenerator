@@ -30,25 +30,30 @@ model EmojiType {
   id          String   @id @default(cuid())
   name        String   @unique
   description String?
+  slug        String   @unique
   emojis      Emoji[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([name])
+  @@index([slug])
 }
 
 model Emoji {
   id              String   @id @default(cuid())
+  slug            String   @unique
   prompt          String
   originalUrl     String
   noBackgroundUrl String?
-  isFlagged       Boolean  @default(false)
-  isFeatured      Boolean  @default(false)
   safetyRating    Int      @default(0)
   error           String?
   isPublic        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  viewCount       Int      @default(0)
+  downloadCount   Int      @default(0)
+  
+
 
   // Relations
   type      EmojiType @relation(fields: [typeId], references: [id])
@@ -59,6 +64,10 @@ model Emoji {
 
   @@index([typeId])
   @@index([creatorId])
+  @@index([isPublic, createdAt])
+  @@index([safetyRating, createdAt])
+  @@index([viewCount])
+  @@index([downloadCount])
 }
 
 model Tag {
