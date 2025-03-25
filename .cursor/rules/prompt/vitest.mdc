@@ -1,0 +1,25 @@
+---
+description: Write Unit test with vitest 
+globs: 
+alwaysApply: false
+---
+## Context
+
+- Create a new component with a tests inside the folder `__tests__`.
+- Fix the test or the component until the command `pnpm test:prod` work
+
+## React Tests
+
+```tsx
+import { setup } from "../test/setup";
+import { screen, waitFor } from "@testing-library/react";
+
+describe("ComponentName", () => {
+  it("should do...", async () => {
+    const { user } = setup(<DialogManagerWrapper />);
+
+    // Use `screen` for element retreiving
+    // Use `user` to interact with the page
+  })
+})
+```

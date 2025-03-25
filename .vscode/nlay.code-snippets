@@ -1,0 +1,16 @@
+{
+  "Next layout page": {
+    "prefix": "nlay",
+    "description": "Create the base of a next layout page",
+    "scope": "typescriptreact",
+    "body": [
+      "import type { LayoutParams } from \"@type/next\";",
+      "",
+      "const RouteLayout = async ({ children, params }: LayoutParams<{ $1 }>) => {",
+      "  return $2",
+      "};",
+      "",
+      "export default RouteLayout;",
+    ],
+  },
+}

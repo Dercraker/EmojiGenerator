@@ -1,0 +1,18 @@
+{
+  "component-with-props": {
+    "prefix": "comp",
+    "description": "Create base TypeScript component with props depending on the file name",
+    "scope": "typescriptreact",
+    "body": [
+      "export type ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Props = {",
+      "  $2",
+      "}",
+      "",
+      "export const ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}} = ({}: ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Props) => {",
+      "  return (",
+      "    $3",
+      "  );",
+      "};",
+    ],
+  },
+}

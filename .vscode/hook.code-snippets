@@ -1,0 +1,23 @@
+{
+  "hook": {
+    "prefix": "hook",
+    "description": "Create lambda hook",
+    "scope": "typescript",
+    "body": [
+      "\"use client\";",
+      "",
+      "type ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Props = {",
+      "  $2",
+      "};",
+      "",
+      "export const use${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}} = ({",
+      "  $3",
+      "}: ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Props) => {",
+      "  $4",
+      "",
+      "  return {};",
+      "};",
+      "",
+    ],
+  },
+}

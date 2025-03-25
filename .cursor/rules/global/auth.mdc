@@ -1,0 +1,79 @@
+---
+description: 
+globs: *.tsx, *.ts
+alwaysApply: false
+---
+//TODO 
+## Context
+
+* EXPLAIN how authentification work and HOW to use it
+* We use NextAuth to handle authentification in our application.
+* Our application create helper to simplify the usage of retreiving the user.
+
+## Example Server Side
+
+To get the current user, you must use `auth` function :
+
+```ts
+import { getUser } from "@/lib/auth/helper";
+
+// user is optional
+const user = await getUser();
+// throw an error if user is not defined
+const user = await getRequiredUser();
+```
+
+`requiredAuth` will throw an `unauthorized` method that will be catch by `unauthorized.tsx`. You can check [nextjsRoutes.mdc](mdc:.cursor/rules/global/nextjsRoutes.mdc)
+
+## Exemple Client Side
+
+//TODO AuthClient
+Use `useSession` from [betterAuth.mdc](mdc:.cursor/rules/library/betterAuth.mdc) and @auth !
+
+```ts
+import { useSession } from "@/lib/auth-client";
+
+const Component = () => {
+  const session = useSession();
+}
+```
+
+## Mutation data
+
+To mutate data from the `authClient` you must always use the following syntaxe : 
+
+```tsx
+import { unwrapSafePromise } from "@/lib/promises";
+import { authClient } from "@/lib/auth-client";
+import { useMutation } from "@tanstack/react-query";
+
+const Component = () => {
+  const verifyEmailMutation = useMutation({
+    mutationFn: async () => {
+      return unwrapSafePromise(
+        authClient.sendVerificationEmail({
+          email: defaultValues.email,
+          callbackURL: "/account",
+        }),
+      );
+    },
+    onSuccess: () => {
+      toast.success("Verification email sent");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  return (
+    <LoadingButton
+      type="button"
+      size="sm"
+      variant="ghost"
+      onClick={() => verifyEmailMutation.mutate()}
+      loading={verifyEmailMutation.isPending}
+    >
+      Verify email
+    </LoadingButton>
+  )
+}
