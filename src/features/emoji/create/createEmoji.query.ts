@@ -3,8 +3,17 @@ import { prisma } from "@lib/prisma";
 import type { Prisma } from "@prisma/client";
 
 type CreateEmojiQueryProps = {
-  data: Prisma.EmojiCreateInput;
+  data: CreateEmojiQueryInputType;
 };
+
+import { z } from "zod";
+
+export const CreateEmojiQuerySchema = z.object({
+  prompt: z.string(),
+  originalUrl: z.string(),
+});
+
+export type CreateEmojiQueryInputType = z.infer<typeof CreateEmojiQuerySchema>;
 
 export const CreateEmojiQuery = async ({ data }: CreateEmojiQueryProps) => {
   const emoji = await prisma.emoji.create({

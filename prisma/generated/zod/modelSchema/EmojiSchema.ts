@@ -5,7 +5,7 @@ import { z } from 'zod';
 /////////////////////////////////////////
 
 export const EmojiSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid(),
   slug: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
@@ -20,6 +20,7 @@ export type Emoji = z.infer<typeof EmojiSchema>
 /////////////////////////////////////////
 
 export const EmojiOptionalDefaultsSchema = EmojiSchema.merge(z.object({
+  id: z.string().cuid().optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 }))

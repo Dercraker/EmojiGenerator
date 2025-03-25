@@ -3,23 +3,13 @@ import type { GenericLinkSchema, NavigationLink } from "./navigation.type";
 
 // Constantes pour les chemins
 const PATHS = {
-  ORG: `/orgs/:orgSlug`,
-  TRIP: `/trips/:tripSlug`,
-  STEP: `/steps/:stepSlug`,
+  EMOJI: `/emojis/:emojiSlug`,
 };
 
 export const EmptyLinkParamsSchema = z.object({}).strict();
 
-export const OrgLinkParamsSchema = EmptyLinkParamsSchema.extend({
-  orgSlug: z.string(),
-}).strict();
-
-export const TripLinkParamsSchema = OrgLinkParamsSchema.extend({
-  tripSlug: z.string(),
-}).strict();
-
-export const StepLinkParamsSchema = TripLinkParamsSchema.extend({
-  stepSlug: z.string(),
+export const EmojiLinkParamsSchema = EmptyLinkParamsSchema.extend({
+  emojiSlug: z.string(),
 }).strict();
 
 const createLinkGenerator = (path: string, needsParams = false) => {
@@ -53,10 +43,6 @@ const createLink = (
 export const LINKS = {
   Landing: {
     Landing: createLink("/", "Landing"),
-    Home: createLink("/home", "Landing"),
-    Features: createLink("/#features", "Features"),
-    Pricing: createLink("/#pricing", "Pricing"),
-    Contact: createLink("/#contact", "Contact"),
   },
 
   Account: {
@@ -67,6 +53,10 @@ export const LINKS = {
     hidden: true,
     disabled: true,
   }),
+
+  Emoji: {
+    Emoji: createLink("/emojis/:emojiSlug", "Emoji", {}, true),
+  },
 
   Auth: {
     SignIn: createLink("/auth/signin", "SignIn", {
