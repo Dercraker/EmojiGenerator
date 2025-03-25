@@ -1,49 +1,38 @@
 'use server';
 
-import { prisma } from '@/src/lib/prisma';
 import { generateEmoji } from '@/src/lib/replicate';
 import { revalidatePath } from 'next/cache';
-import { authAction } from '../../../lib/safe-action';
+import { authAction } from '../../../lib/safeAction/safe-action';
+import { CreateEmojiQuery } from '../createEmoji.query';
 import { CreateEmojiSchema } from './createEmoji.schema';
 
 export const CreateEmojiAction = authAction
   .schema(CreateEmojiSchema)
-  .action(async ({ parsedInput, ctx }) => {
+  .action(async ({ parsedInput }) => {
     try {
-      const { prompt, typeId } = parsedInput;
-      const { user } = ctx;
+      const { prompt } = parsedInput;
       // Générer l'emoji avec Replicate
       const imageUrl = await generateEmoji(prompt);
+      console.log('🚀 ~ .action ~ imageUrl:', imageUrl);
 
       if (!imageUrl || !Array.isArray(imageUrl) || !imageUrl[0]) {
         throw new Error('Failed to generate emoji');
       }
 
       // Créer l'emoji dans la base de données
-      const emoji = await prisma.emoji.create({
+      const emoji = await CreateEmojiQuery({
         data: {
           prompt,
           originalUrl: imageUrl[0],
-          typeId,
-          creatorId: user.id,
           slug: `${prompt
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`,
         },
-        include: {
-          type: true,
-          creator: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-        },
       });
+      console.log('🚀 ~ .action ~ emoji:', emoji);
 
       revalidatePath('/');
-      revalidatePath(`/emoji/${emoji.id}`);
+      revalidatePath(`/emoji/${emoji.slug}`);
 
       return emoji;
     } catch (error) {
