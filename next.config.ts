@@ -7,10 +7,7 @@ const nextConfig = {
         hostname: "assets.aceternity.com",
       },
       {
-        hostname: "images.unsplash.com",
-      },
-      {
-        hostname: "i.pravatar.cc",
+        hostname: "n07swn4304.ufs.sh",
       },
     ],
   },

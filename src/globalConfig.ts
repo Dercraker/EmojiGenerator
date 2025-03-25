@@ -5,5 +5,7 @@ export const GLOBAL_CONFIG = {
   company: {
     name: "Dercraker inc",
     address: "in the cloud",
+    linkedin: "https://www.linkedin.com/in/dercraker/",
+    github: "https://github.com/Dercraker",
   },
 };

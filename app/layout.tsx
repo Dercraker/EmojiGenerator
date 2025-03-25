@@ -1,3 +1,4 @@
+import { Footer } from "@/components/layout/footer";
 import { NextTopLoader } from "@components/page/nextTopLoader";
 import { TailwindIndicator } from "@components/utils/tailwindDevIndicator";
 import { cn } from "@lib/utils";
@@ -38,6 +39,7 @@ const RootLayout = ({ children }: LayoutParams) => {
           <TailwindIndicator />
           <NextTopLoader />
         </Providers>
+        <Footer />
       </body>
     </html>
   );
