@@ -8,7 +8,7 @@ import { CreateEmojiQuery } from "./createEmoji.query";
 import { CreateEmojiSchema } from "./createEmoji.schema";
 export const CreateEmojiAction = authAction
   .schema(CreateEmojiSchema)
-  .action(async ({ parsedInput: { prompt }, ctx: { user } }) => {
+  .action(async ({ parsedInput: { prompt, tags }, ctx: { user } }) => {
     const res = ((await generateEmoji(prompt)) as string[])[0];
 
     const blob = await new Response(res).blob();
@@ -33,6 +33,7 @@ export const CreateEmojiAction = authAction
         prompt,
         originalUrl: fileUrl,
         creatorId: user.id,
+        tags,
       },
     });
 

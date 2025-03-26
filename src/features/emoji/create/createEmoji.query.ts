@@ -12,6 +12,7 @@ export const CreateEmojiQuerySchema = z.object({
   prompt: z.string(),
   originalUrl: z.string(),
   creatorId: z.string(),
+  tags: z.array(z.string()),
 });
 
 export type CreateEmojiQueryInputType = z.infer<typeof CreateEmojiQuerySchema>;
@@ -20,6 +21,12 @@ export const CreateEmojiQuery = async ({ data }: CreateEmojiQueryProps) => {
   const emoji = await prisma.emoji.create({
     data: {
       ...data,
+      tags: {
+        connectOrCreate: data.tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
+      },
       slug: generateSlug(data.prompt.toLowerCase().replace(/ /g, "-")),
     },
   });
