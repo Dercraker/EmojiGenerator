@@ -1,22 +1,18 @@
+import { GetCurrentUser } from "@/lib/auth/authUser";
+import type { User } from "@prisma/client";
 import { createMiddleware } from "next-safe-action";
 import { ActionError } from "./safeActions";
 
-const getAuthUser = async () => {
-  const user = await auth();
+export const AuthMiddleware = createMiddleware().define(async ({ next }) => {
+  const user = await GetCurrentUser();
 
   if (!user) {
-    throw new ActionError("Session not found!");
+    throw new ActionError("Please log in to continue !");
   }
 
   if (!user.id || !user.email) {
-    throw new ActionError("Session is not valid!");
+    throw new ActionError("Please log in to continue !");
   }
-
-  return user as User;
-};
-
-export const AuthMiddleware = createMiddleware().define(async ({ next }) => {
-  const user = await getAuthUser();
 
   return next({
     ctx: {

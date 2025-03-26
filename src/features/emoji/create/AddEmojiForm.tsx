@@ -23,9 +23,6 @@ export const AddEmojiForm = () => {
   const router = useRouter();
   const form = useZodForm({
     schema: CreateEmojiSchema,
-    defaultValues: {
-      prompt: "A cat on bike",
-    },
   });
 
   const { mutate: addEmoji, isPending } = useMutation({
@@ -37,10 +34,11 @@ export const AddEmojiForm = () => {
         return;
       }
 
-      toast.success("Emoji created successfully");
-      router.push(LINKS.Emoji.Emoji.href({ emojiSlug: response.data.slug }));
-
       return response.data;
+    },
+    onSuccess(data) {
+      router.push(LINKS.Emoji.Emoji.href({ emojiSlug: data?.slug }));
+      toast.success("Emoji created successfully");
     },
   });
 
@@ -73,7 +71,7 @@ export const AddEmojiForm = () => {
           disabled={!form.formState.isValid || isPending}
           isLoading={isPending}
         >
-          {isPending ? "Création..." : "Créer"}
+          Create
         </SubmitButton>
       </Form>
     </Card>

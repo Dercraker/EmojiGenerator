@@ -3,17 +3,13 @@ import type { PageParams } from "@type/next";
 import { SignInForm } from "@components/auth/signInForm";
 
 const RoutePage = (props: PageParams) => {
-  return <LoginWithSocialsAndEmail />;
-};
-
-export function LoginWithSocialsAndEmail() {
   return (
     <div className="relative w-full overflow-hidden">
       <AmbientColor />
       <SignInForm />
     </div>
   );
-}
+};
 
 export const AmbientColor = () => {
   return (

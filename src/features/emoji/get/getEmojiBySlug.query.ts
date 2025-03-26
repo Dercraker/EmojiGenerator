@@ -17,6 +17,21 @@ export const GetEmojiBySlugQuery = async ({
       originalUrl: true,
       createdAt: true,
       slug: true,
+      creatorId: true,
+      downloadCount: true,
+      isFlagged: true,
+      noBackgroundUrl: true,
+      updatedAt: true,
+      viewCount: true,
+      tags: true,
+      creator: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
     },
   });
 

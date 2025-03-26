@@ -2,7 +2,6 @@ import { SectionLayout } from "@components/layout/sectionLayout";
 import { Logo } from "@components/logo/logo";
 import { Typography } from "@ui/typography";
 import { ProviderButtons } from "./providerButtons";
-import { SignInInput } from "./signInInput";
 
 export const SignInForm = () => {
   return (
@@ -22,10 +21,6 @@ export const SignInForm = () => {
       </Typography>
 
       <ProviderButtons />
-
-      <div className="my-6 h-px w-full bg-neutral-100 dark:bg-neutral-800" />
-
-      <SignInInput />
     </SectionLayout>
   );
 };

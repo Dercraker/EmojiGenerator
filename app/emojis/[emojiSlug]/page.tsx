@@ -1,8 +1,11 @@
 import { Layout, LayoutContent } from "@/components/layout/layout";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Typography } from "@/components/ui/typography";
 import { GetEmojiBySlugQuery } from "@/features/emoji/get/getEmojiBySlug.query";
 import type { PageParams } from "@/types/next";
+import { displayName } from "@/utils/format/id";
+import type { User } from "@prisma/client";
 import { Card } from "@ui/card";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -39,14 +42,28 @@ export default async function EmojiPage({
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Typography variant="muted">Created by</Typography>
-                <Typography>UserName</Typography>
+                <div className="flex items-center gap-2">
+                  <Avatar className="size-6">
+                    <AvatarImage src={emoji.creator.image ?? undefined} />
+                    <AvatarFallback>
+                      {displayName(emoji.creator as User)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <Typography>{displayName(emoji.creator as User)}</Typography>
+                </div>
               </div>
 
               <Separator />
 
               <div className="flex items-center justify-between">
-                <Typography variant="muted">Dimensions</Typography>
-                <span>768×768</span>
+                <Typography variant="muted">Tags</Typography>
+                {emoji.tags.length ? (
+                  emoji.tags.map((tag) => tag.name).join(", ")
+                ) : (
+                  <Typography variant="muted" className="italic">
+                    No tags
+                  </Typography>
+                )}
               </div>
               <Separator />
 

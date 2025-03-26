@@ -52,29 +52,3 @@ export const isActionSuccessful = <T extends z.ZodType, Data>(
 
   return true;
 };
-
-/**
- * Converts an action result to a promise that resolves to false
- *
- * @param action Return value of a server action
- * @returns A promise that resolves to false
- */
-export const resolveActionResult = async <T extends z.ZodType, Data>(
-  action: Promise<
-    SafeActionResult<string, T, readonly [], any, any, Data> | undefined
-  >,
-): Promise<Data> => {
-  return new Promise((resolve, reject) => {
-    action
-      .then((result) => {
-        if (isActionSuccessful(result)) {
-          resolve(result.data);
-        } else {
-          reject(result?.serverError ?? "Something went wrong");
-        }
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};

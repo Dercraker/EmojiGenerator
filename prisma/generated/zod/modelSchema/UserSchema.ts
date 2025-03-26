@@ -3,6 +3,8 @@ import { SessionWithRelationsSchema, SessionOptionalDefaultsWithRelationsSchema 
 import type { SessionWithRelations, SessionOptionalDefaultsWithRelations } from './SessionSchema'
 import { AccountWithRelationsSchema, AccountOptionalDefaultsWithRelationsSchema } from './AccountSchema'
 import type { AccountWithRelations, AccountOptionalDefaultsWithRelations } from './AccountSchema'
+import { EmojiWithRelationsSchema, EmojiOptionalDefaultsWithRelationsSchema } from './EmojiSchema'
+import type { EmojiWithRelations, EmojiOptionalDefaultsWithRelations } from './EmojiSchema'
 
 /////////////////////////////////////////
 // USER SCHEMA
@@ -36,6 +38,7 @@ export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
 export type UserRelations = {
   sessions: SessionWithRelations[];
   accounts: AccountWithRelations[];
+  emojis: EmojiWithRelations[];
 };
 
 export type UserWithRelations = z.infer<typeof UserSchema> & UserRelations
@@ -43,6 +46,7 @@ export type UserWithRelations = z.infer<typeof UserSchema> & UserRelations
 export const UserWithRelationsSchema: z.ZodType<UserWithRelations> = UserSchema.merge(z.object({
   sessions: z.lazy(() => SessionWithRelationsSchema).array(),
   accounts: z.lazy(() => AccountWithRelationsSchema).array(),
+  emojis: z.lazy(() => EmojiWithRelationsSchema).array(),
 }))
 
 /////////////////////////////////////////
@@ -52,6 +56,7 @@ export const UserWithRelationsSchema: z.ZodType<UserWithRelations> = UserSchema.
 export type UserOptionalDefaultsRelations = {
   sessions: SessionOptionalDefaultsWithRelations[];
   accounts: AccountOptionalDefaultsWithRelations[];
+  emojis: EmojiOptionalDefaultsWithRelations[];
 };
 
 export type UserOptionalDefaultsWithRelations = z.infer<typeof UserOptionalDefaultsSchema> & UserOptionalDefaultsRelations
@@ -59,6 +64,7 @@ export type UserOptionalDefaultsWithRelations = z.infer<typeof UserOptionalDefau
 export const UserOptionalDefaultsWithRelationsSchema: z.ZodType<UserOptionalDefaultsWithRelations> = UserOptionalDefaultsSchema.merge(z.object({
   sessions: z.lazy(() => SessionOptionalDefaultsWithRelationsSchema).array(),
   accounts: z.lazy(() => AccountOptionalDefaultsWithRelationsSchema).array(),
+  emojis: z.lazy(() => EmojiOptionalDefaultsWithRelationsSchema).array(),
 }))
 
 export default UserSchema;

@@ -1,8 +1,35 @@
 model Emoji {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  prompt      String
-  originalUrl String?
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prompt          String
+  originalUrl     String
+  noBackgroundUrl String?
+
+  safetyRating Int     @default(0)
+  isFlagged    Boolean @default(false)
+
+  viewCount     Int @default(0)
+  downloadCount Int @default(0)
+
+  tags      Tag[]
+  creator   User   @relation(fields: [creatorId], references: [id])
+  creatorId String
+
+  @@index([slug])
+  @@index([isFlagged, prompt])
+  @@index([isFlagged, viewCount])
+  @@index([isFlagged, downloadCount])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  emojis    Emoji[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
 }

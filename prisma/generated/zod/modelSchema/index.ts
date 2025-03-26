@@ -3,3 +3,4 @@ export * from './SessionSchema';
 export * from './AccountSchema';
 export * from './VerificationSchema';
 export * from './EmojiSchema';
+export * from './TagSchema';

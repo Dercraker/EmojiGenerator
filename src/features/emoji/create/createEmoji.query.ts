@@ -11,6 +11,7 @@ import { z } from "zod";
 export const CreateEmojiQuerySchema = z.object({
   prompt: z.string(),
   originalUrl: z.string(),
+  creatorId: z.string(),
 });
 
 export type CreateEmojiQueryInputType = z.infer<typeof CreateEmojiQuerySchema>;
